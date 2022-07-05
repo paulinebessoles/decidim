@@ -18,6 +18,15 @@ module Decidim
         it "renders the body" do
           expect(mail.body.encoded).to match(initiative.title["en"])
         end
+
+        context "when committee is disabled" do
+          let(:promoting_committee_enabled) { "false" }
+
+          it "renders the body" do
+            expect(mail.body.encoded)
+              .not_to include("Remember that you must invite at least %{member_count} people to promoter committee. Forward the following link to invite people to the promoter committee")
+          end
+        end
       end
 
       context "when notifies state change" do
