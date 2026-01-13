@@ -54,6 +54,15 @@ module Decidim
           expect(mail).to have_link(router.initiative_url(initiative, host: initiative.organization.host))
           expect(mail).to have_no_link(admin_router.initiative_url(initiative, host: initiative.organization.host))
         end
+
+        context "when committee is disabled" do
+          let(:promoting_committee_enabled) { "false" }
+
+          it "renders the body" do
+            expect(mail.body.encoded)
+              .not_to include("Remember that you must invite at least %{member_count} people to promoter committee. Forward the following link to invite people to the promoter committee")
+          end
+        end
       end
 
       context "when notifies state change" do
